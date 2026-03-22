@@ -459,6 +459,8 @@ ${BOLD}Commands:${RESET}
   add <type>      Create a new entry
   list <type>     List entries (or "all")
   status          Show pipeline overview
+  mine            Analyze reflections for improvement patterns
+  ingest          Auto-create Sources from reflection patterns
 
 ${BOLD}Types:${RESET}
   source          Raw inputs (SR-)
@@ -485,6 +487,8 @@ ${BOLD}Examples:${RESET}
   bun run ladder list ideas
   bun run ladder list all
   bun run ladder status
+  bun run ladder mine --top 5
+  bun run ladder ingest --dry-run
 `);
 }
 
@@ -529,6 +533,20 @@ switch (command) {
   case "status":
     await cmdStatus();
     break;
+
+  case "mine": {
+    const { spawnSync } = await import("child_process");
+    const result = spawnSync("bun", ["run", join(ROOT, "Tools", "mine.ts"), ...args.slice(1)], { stdio: "inherit" });
+    if (result.status !== 0) process.exit(result.status ?? 1);
+    break;
+  }
+
+  case "ingest": {
+    const { spawnSync } = await import("child_process");
+    const result = spawnSync("bun", ["run", join(ROOT, "Tools", "ingest.ts"), ...args.slice(1)], { stdio: "inherit" });
+    if (result.status !== 0) process.exit(result.status ?? 1);
+    break;
+  }
 
   default:
     console.error(`Unknown command: ${command}. Run 'bun run ladder help' for usage.`);
