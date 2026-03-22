@@ -6,3 +6,6 @@ out/
 .env
 .env.local
 bun.lockb
+
+# Private pipeline entries (legal, housing, personal domains)
+Private/
