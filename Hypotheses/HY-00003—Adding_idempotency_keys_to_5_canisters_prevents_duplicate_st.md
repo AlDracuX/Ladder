@@ -1,7 +1,7 @@
 ---
 id: HY-00003
 title: "Adding idempotency keys to 5 canisters prevents duplicate state mutations on retry"
-status: draft
+status: archived
 created: 2026-03-22
 idea: ID-00001
 tags: []

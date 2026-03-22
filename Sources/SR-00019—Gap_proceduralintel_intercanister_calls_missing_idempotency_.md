@@ -3,7 +3,7 @@ id: SR-00019
 title: "Gap: procedural_intel inter-canister calls missing idempotency (AL-00002)"
 type: observation
 url: ""
-status: draft
+status: archived
 created: 2026-03-22
 tags: []
 domain: ""

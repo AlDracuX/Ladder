@@ -3,7 +3,7 @@ id: SR-00015
 title: "Daily telemetry: ? tests, 0 open issues (2026-03-22)"
 type: telemetry
 url: ""
-status: draft
+status: archived
 created: 2026-03-22
 tags: []
 domain: ""

@@ -3,7 +3,7 @@ id: SR-00016
 title: "Gap: evidence_vault inter-canister calls missing idempotency (AL-00002)"
 type: observation
 url: ""
-status: draft
+status: archived
 created: 2026-03-22
 tags: []
 domain: ""
