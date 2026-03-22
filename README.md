@@ -208,6 +208,19 @@ Ladder draws from a body of interconnected ideas about autonomous optimization, 
 - [Algorithmic vs. Faith-based Learning](https://danielmiessler.com/blog/algorithmic-vs-faith-based-learning) — Why verifiable, iterative learning beats untested assumptions
 - [The Great Transition](https://danielmiessler.com/blog/the-great-transition) — The societal shift that makes autonomous creation tools necessary
 
+## Acknowledgments
+
+Ladder draws direct inspiration from Andrej Karpathy's thinking over the past several years.
+
+His [Software 2.0](https://karpathy.medium.com/software-2-0-a64152b37c35) essay articulated the shift from hand-written logic to learned, data-driven systems — and the implications for how we build and verify software. His insistence that *outputs must be verifiable* is foundational to everything Ladder does: the hypothesis → experiment → result pipeline only works if results can be checked.
+
+More recently, his work on autonomous research automation — the idea that AI can not only assist with research but run the research loop itself — is exactly what Ladder is trying to structure and generalize. The pipeline isn't just for humans anymore.
+
+These ideas have been running in the background of Ladder's design for years. Thank you, Andrej.
+
+→ [Software 2.0](https://karpathy.medium.com/software-2-0-a64152b37c35)
+→ [@karpathy on X](https://x.com/karpathy)
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for how to submit sources, ideas, hypotheses, experiments, and results.
