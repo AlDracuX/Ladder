@@ -3,7 +3,7 @@ id: SR-00023
 title: "Settlement canister f64 migration already complete - stale audit finding"
 type: retrospective
 url: ""
-status: draft
+status: archived
 created: 2026-03-22
 tags: []
 domain: ""

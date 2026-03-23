@@ -3,7 +3,7 @@ id: ID-00008
 title: "Improve pollinator: LLM reads Call:: context to distinguish reads from writes"
 status: draft
 created: 2026-03-22
-sources: [SR-00027]
+sources: [SR-00027, SR-00021]
 phase: contemplate
 domain: "tooling"
 tags: [ladder, pollinator, ast, call-classification]

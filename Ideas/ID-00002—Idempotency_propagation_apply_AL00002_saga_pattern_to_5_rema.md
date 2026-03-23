@@ -3,7 +3,7 @@ id: ID-00002
 title: "Idempotency propagation: apply AL-00002 saga pattern to 5 remaining canisters"
 status: draft
 created: 2026-03-22
-sources: [SR-00010]
+sources: [SR-00010, SR-00016]
 phase: mate
 domain: "canister-reliability"
 tags: [idempotency, saga, cross-canister]
