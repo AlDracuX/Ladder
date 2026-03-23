@@ -448,6 +448,146 @@ async function cmdStatus(): Promise<void> {
   }
 }
 
+async function cmdEnrich(idOrType: string): Promise<void> {
+  // Find the entry file by ID prefix or full ID
+  let found: { filepath: string; type: CollectionKey; content: string } | null = null;
+
+  for (const [key, col] of Object.entries(COLLECTIONS) as [CollectionKey, (typeof COLLECTIONS)[CollectionKey]][]) {
+    const fullDir = join(ROOT, col.dir);
+    if (!existsSync(fullDir)) continue;
+    const files = await readdir(fullDir);
+    for (const file of files) {
+      if (file.startsWith(idOrType) && file.endsWith(".md")) {
+        const filepath = join(fullDir, file);
+        const content = await readFile(filepath, "utf-8");
+        found = { filepath, type: key, content };
+        break;
+      }
+    }
+    if (found) break;
+  }
+
+  if (!found) {
+    console.error(`Error: No entry found matching "${idOrType}"`);
+    process.exit(1);
+  }
+
+  const fm = parseFrontmatter(found.content);
+
+  // Check if already enriched (scores > 0 for ideas, or non-placeholder description)
+  const isIdea = found.type === "idea";
+  if (isIdea) {
+    const hasScores = found.content.includes("feasibility: 0") === false;
+    const hasDescription = !found.content.match(/## Description\n\n.{0,100}\n\n## Provenance\n\n\n/);
+    if (hasScores && hasDescription) {
+      console.log(`${DIM}Already enriched: ${fm.id || idOrType}${RESET}`);
+      return;
+    }
+  }
+
+  // Report what needs enrichment
+  console.log(`${BOLD}Needs enrichment:${RESET} ${fm.id || idOrType}`);
+  console.log(`  ${DIM}Title:${RESET} ${fm.title || "(untitled)"}`);
+  console.log(`  ${DIM}Type:${RESET} ${found.type}`);
+  console.log(`  ${DIM}File:${RESET} ${found.filepath}`);
+
+  if (isIdea) {
+    const sections = ["Description", "Provenance", "Connection", "Next Steps"];
+    const empty: string[] = [];
+    for (const section of sections) {
+      const regex = new RegExp(`## ${section}\\n\\n([^#]*)`, "m");
+      const match = found.content.match(regex);
+      if (!match || match[1].trim() === "" || match[1].trim() === fm.title) {
+        empty.push(section);
+      }
+    }
+    if (empty.length > 0) {
+      console.log(`  ${DIM}Empty sections:${RESET} ${empty.join(", ")}`);
+    }
+    if (found.content.includes("feasibility: 0")) {
+      console.log(`  ${DIM}Scores:${RESET} all zero (need rating)`);
+    }
+  }
+
+  // Read linked sources for context
+  if (isIdea && fm.sources) {
+    const sourceIds = fm.sources.replace(/[\[\]]/g, "").split(",").map((s: string) => s.trim()).filter(Boolean);
+    if (sourceIds.length > 0) {
+      console.log(`  ${DIM}Linked sources:${RESET} ${sourceIds.join(", ")}`);
+      for (const srcId of sourceIds) {
+        const srcDir = join(ROOT, "Sources");
+        if (existsSync(srcDir)) {
+          const srcFiles = await readdir(srcDir);
+          const srcFile = srcFiles.find((f) => f.startsWith(srcId));
+          if (srcFile) {
+            const srcContent = await readFile(join(srcDir, srcFile), "utf-8");
+            const srcFm = parseFrontmatter(srcContent);
+            console.log(`    ${srcId}: ${srcFm.title || "(untitled)"}`);
+          }
+        }
+      }
+    }
+  }
+
+  console.log();
+  console.log(`${BOLD}Action:${RESET} Edit the file to fill empty sections and set scores.`);
+  console.log(`  Use: claude "enrich ${fm.id || idOrType}" or edit manually.`);
+}
+
+async function cmdStubs(type?: string): Promise<void> {
+  const typesToCheck = type
+    ? [type as CollectionKey]
+    : (Object.keys(COLLECTIONS) as CollectionKey[]);
+
+  let totalStubs = 0;
+
+  for (const key of typesToCheck) {
+    const col = COLLECTIONS[key];
+    if (!col) continue;
+    const fullDir = join(ROOT, col.dir);
+    if (!existsSync(fullDir)) continue;
+
+    const files = await readdir(fullDir);
+    const stubs: string[] = [];
+
+    for (const file of files) {
+      if (!file.match(new RegExp(`^${col.prefix}-\\d`)) || !file.endsWith(".md")) continue;
+      const content = await readFile(join(fullDir, file), "utf-8");
+      const fm = parseFrontmatter(content);
+
+      // Check if stub: for ideas, scores all 0 and description = title
+      if (key === "idea") {
+        const hasZeroScores = content.includes("feasibility: 0");
+        const descMatch = content.match(/## Description\n\n(.*?)\n/);
+        const descIsTitle = descMatch && descMatch[1].trim() === (fm.title || "").trim();
+        if (hasZeroScores && descIsTitle) {
+          stubs.push(`  ${fm.id || file}  ${colorStatus(fm.status || "draft")}  ${fm.title || "(untitled)"}`);
+        }
+      } else {
+        // For other types, check if body sections are empty placeholders
+        const sections = content.split(/\n## /);
+        const emptyCount = sections.filter((s) => s.trim().split("\n").length <= 2).length;
+        if (emptyCount > sections.length / 2) {
+          stubs.push(`  ${fm.id || file}  ${colorStatus(fm.status || "draft")}  ${fm.title || "(untitled)"}`);
+        }
+      }
+    }
+
+    if (stubs.length > 0) {
+      console.log(`\n${BOLD}${col.name} stubs (${stubs.length}):${RESET}`);
+      for (const s of stubs) console.log(s);
+      totalStubs += stubs.length;
+    }
+  }
+
+  if (totalStubs === 0) {
+    console.log(`${DIM}No stubs found — all entries are enriched.${RESET}`);
+  } else {
+    console.log(`\n${BOLD}Total:${RESET} ${totalStubs} stubs need enrichment.`);
+    console.log(`${DIM}Run: bun run ladder enrich <ID> to see what's missing.${RESET}`);
+  }
+}
+
 function showHelp(): void {
   console.log(`
 ${BOLD}Ladder${RESET} — Systematic pipeline for turning observations into verified improvements
@@ -457,6 +597,8 @@ ${BOLD}Usage:${RESET}
 
 ${BOLD}Commands:${RESET}
   add <type>      Create a new entry
+  enrich <ID>     Show what needs enrichment for an entry
+  stubs [type]    List all stub/unenriched entries
   list <type>     List entries (or "all")
   status          Show pipeline overview
 
@@ -529,6 +671,21 @@ switch (command) {
   case "status":
     await cmdStatus();
     break;
+
+  case "enrich": {
+    if (args.length < 2) {
+      console.error("Usage: bun run ladder enrich <ID>");
+      process.exit(1);
+    }
+    await cmdEnrich(args[1]);
+    break;
+  }
+
+  case "stubs": {
+    const type = args[1];
+    await cmdStubs(type);
+    break;
+  }
 
   default:
     console.error(`Unknown command: ${command}. Run 'bun run ladder help' for usage.`);
