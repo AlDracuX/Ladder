@@ -6,7 +6,7 @@ created: 2026-03-24
 experiment: EX-00004
 outcome: success
 tags: [money, newtype, settlement, type-safety, precision]
-loops_to: []
+loops_to: [AL-00008]
 ---
 
 ## Summary
@@ -30,6 +30,14 @@ HY-00008 is **partially validated**. The hypothesis predicted "zero raw u64-to-f
 ## Outcome
 
 **PASSED** with qualification. The refactor achieves the spirit of HY-00008 (type-safe money arithmetic) even though the letter (zero casts) isn't fully met. The remaining casts are correctly non-money values.
+
+## Loop
+
+- [ ] New source identified (→ Sources)
+- [ ] New idea suggested (→ Ideas)
+- [ ] New hypothesis formed (→ Hypotheses)
+- [x] Algorithm validated (→ Algorithms) — AL-00008
+- [ ] Problem redefined (→ Sources)
 
 ## Lessons Learned
 

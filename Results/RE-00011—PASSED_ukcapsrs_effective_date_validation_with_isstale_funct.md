@@ -6,7 +6,7 @@ created: 2026-03-24
 experiment: EX-00008
 outcome: success
 tags: [uk-law, statutory-caps, sunset, effective-dates]
-loops_to: [SR-00006]
+loops_to: [SR-00006, AL-00010]
 ---
 
 ## Summary
@@ -29,6 +29,14 @@ HY-00011 predicted compile-time warnings via `#[deprecated]`. In practice, Rust'
 ## Outcome
 
 **PASSED** — HY-00011 validated. Statutory rate staleness is now detectable programmatically.
+
+## Loop
+
+- [ ] New source identified (→ Sources)
+- [ ] New idea suggested (→ Ideas)
+- [ ] New hypothesis formed (→ Hypotheses)
+- [x] Algorithm validated (→ Algorithms) — AL-00010
+- [ ] Problem redefined (→ Sources)
 
 ## Lessons Learned
 
