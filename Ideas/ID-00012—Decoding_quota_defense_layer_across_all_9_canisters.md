@@ -1,8 +1,9 @@
 ---
 id: ID-00012
 title: "Decoding quota defense layer across all 9 canisters"
-status: draft
+status: archived
 created: 2026-03-23
+updated: 2026-03-24
 sources: [SR-00025]
 phase: dream
 domain: "security-hardening"

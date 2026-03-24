@@ -1,7 +1,7 @@
 ---
 id: RE-00003
 title: "FALSE POSITIVE: 5 canister idempotency gaps are read-only queries, not state mutations"
-status: draft
+status: complete
 created: 2026-03-22
 experiment: EX-00002
 outcome: failure

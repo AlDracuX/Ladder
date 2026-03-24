@@ -1,7 +1,8 @@
 ---
 id: ID-00017
 title: "Two-layer saga recovery: post-upgrade scan plus orchestrated rollback"
-status: draft
+status: active
+updated: 2026-03-24
 created: 2026-03-23
 sources: [SR-00033, SR-00034]
 phase: dream

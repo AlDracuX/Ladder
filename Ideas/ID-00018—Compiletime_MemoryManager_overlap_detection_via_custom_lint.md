@@ -1,7 +1,8 @@
 ---
 id: ID-00018
 title: "Compile-time MemoryManager overlap detection via custom lint"
-status: draft
+status: active
+updated: 2026-03-24
 created: 2026-03-23
 sources: [SR-00035, SR-00036]
 phase: dream

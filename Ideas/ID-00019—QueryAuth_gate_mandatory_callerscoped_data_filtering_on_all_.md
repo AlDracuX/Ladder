@@ -1,7 +1,8 @@
 ---
 id: ID-00019
 title: "QueryAuth gate: mandatory caller-scoped data filtering on all query endpoints"
-status: draft
+status: active
+updated: 2026-03-24
 created: 2026-03-23
 sources: [SR-00037]
 phase: dream

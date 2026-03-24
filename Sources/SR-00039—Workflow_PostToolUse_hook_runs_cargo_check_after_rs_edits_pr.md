@@ -3,7 +3,8 @@ id: SR-00039
 title: "Workflow: PostToolUse hook runs cargo check after .rs edits preventing compilation drift"
 type: pattern
 url: ""
-status: draft
+status: active
+updated: 2026-03-23
 created: 2026-03-23
 tags: [cargo-check, hook, workflow, compilation, developer-experience]
 domain: "build-infrastructure"

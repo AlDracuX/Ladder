@@ -3,7 +3,8 @@ id: SR-00034
 title: "Pattern: controller-only rollback_case_* endpoints in all data canisters"
 type: pattern
 url: ""
-status: draft
+status: active
+updated: 2026-03-23
 created: 2026-03-23
 tags: [rollback, saga, controller, admin, data-integrity]
 domain: "canister-reliability"

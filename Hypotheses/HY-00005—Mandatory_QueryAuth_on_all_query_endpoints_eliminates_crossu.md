@@ -1,7 +1,7 @@
 ---
 id: HY-00005
 title: "Mandatory QueryAuth on all query endpoints eliminates cross-user data leakage"
-status: active
+status: complete
 created: 2026-03-23
 idea: ID-00019
 tags: []

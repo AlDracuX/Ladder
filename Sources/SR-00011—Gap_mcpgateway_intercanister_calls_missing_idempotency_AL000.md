@@ -3,8 +3,9 @@ id: SR-00011
 title: "Gap: mcp_gateway inter-canister calls missing idempotency (AL-00002)"
 type: observation
 url: ""
-status: draft
+status: archived
 created: 2026-03-22
+updated: 2026-03-23
 tags: []
 domain: ""
 relevance: ""

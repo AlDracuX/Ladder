@@ -3,7 +3,8 @@ id: SR-00033
 title: "Pattern: post_upgrade timer scan for stuck sagas"
 type: pattern
 url: ""
-status: draft
+status: active
+updated: 2026-03-23
 created: 2026-03-23
 tags: [saga, post-upgrade, timer, resilience, canister-lifecycle]
 domain: "canister-reliability"

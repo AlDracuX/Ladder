@@ -3,7 +3,8 @@ id: SR-00040
 title: "Process: Ladder CREATE_ENTRY without ENRICH_ENTRY produces stub entries"
 type: retrospective
 url: ""
-status: draft
+status: active
+updated: 2026-03-23
 created: 2026-03-23
 tags: [ladder, process, enrichment, atomic-operation, workflow]
 domain: "ladder-process"

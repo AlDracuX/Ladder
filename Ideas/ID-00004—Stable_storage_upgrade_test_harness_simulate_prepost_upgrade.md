@@ -1,7 +1,8 @@
 ---
 id: ID-00004
 title: "Stable storage upgrade test harness: simulate pre/post upgrade data migration"
-status: draft
+status: active
+updated: 2026-03-24
 created: 2026-03-22
 sources: [SR-00004]
 phase: contemplate

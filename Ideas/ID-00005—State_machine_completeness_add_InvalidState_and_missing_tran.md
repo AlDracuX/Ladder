@@ -1,7 +1,8 @@
 ---
 id: ID-00005
 title: "State machine completeness: add InvalidState and missing transition variants"
-status: draft
+status: active
+updated: 2026-03-24
 created: 2026-03-22
 sources: [SR-00003]
 phase: contemplate

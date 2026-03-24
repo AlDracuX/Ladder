@@ -1,7 +1,8 @@
 ---
 id: ID-00020
 title: "Build pipeline integrity: .did drift detection and continuous compilation guard"
-status: draft
+status: active
+updated: 2026-03-24
 created: 2026-03-23
 sources: [SR-00038, SR-00039, SR-00040]
 phase: dream

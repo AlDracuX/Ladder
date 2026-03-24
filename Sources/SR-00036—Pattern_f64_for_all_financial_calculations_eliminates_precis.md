@@ -3,7 +3,8 @@ id: SR-00036
 title: "Pattern: f64 for all financial calculations eliminates precision loss above GBP 167K"
 type: pattern
 url: ""
-status: draft
+status: active
+updated: 2026-03-23
 created: 2026-03-23
 tags: [f64, precision, financial, settlement, statutory-calculation]
 domain: "financial-accuracy"

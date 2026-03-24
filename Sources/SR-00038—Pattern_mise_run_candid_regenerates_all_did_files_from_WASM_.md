@@ -3,7 +3,8 @@ id: SR-00038
 title: "Pattern: mise run candid regenerates all .did files from WASM artifacts"
 type: pattern
 url: ""
-status: draft
+status: active
+updated: 2026-03-23
 created: 2026-03-23
 tags: [candid, did, build-tooling, mise, code-generation]
 domain: "build-infrastructure"

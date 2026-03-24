@@ -1,7 +1,8 @@
 ---
 id: ID-00003
 title: "Automated statutory rate sunset: uk_caps.rs version-gated with effective dates"
-status: draft
+status: active
+updated: 2026-03-24
 created: 2026-03-22
 sources: [SR-00006]
 phase: contemplate

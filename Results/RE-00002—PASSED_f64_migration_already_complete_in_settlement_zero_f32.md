@@ -1,7 +1,7 @@
 ---
 id: RE-00002
 title: "PASSED: f64 migration already complete in settlement - zero f32 usage, 552 tests pass"
-status: draft
+status: complete
 created: 2026-03-22
 experiment: EX-00002
 outcome: success

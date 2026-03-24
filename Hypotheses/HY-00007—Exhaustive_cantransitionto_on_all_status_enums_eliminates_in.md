@@ -1,7 +1,7 @@
 ---
 id: HY-00007
 title: "Exhaustive can_transition_to on all status enums eliminates invalid state transitions"
-status: active
+status: complete
 created: 2026-03-23
 idea: ID-00005
 tags: []

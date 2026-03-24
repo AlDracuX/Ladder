@@ -3,7 +3,8 @@ id: SR-00035
 title: "Bug: dual MemoryManager in same canister causes overlapping virtual memory"
 type: observation
 url: ""
-status: draft
+status: active
+updated: 2026-03-23
 created: 2026-03-23
 tags: [stable-storage, memory-manager, bug, data-corruption, ic-stable-structures]
 domain: "canister-storage"
