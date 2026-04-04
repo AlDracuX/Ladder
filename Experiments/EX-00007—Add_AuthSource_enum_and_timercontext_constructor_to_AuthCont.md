@@ -1,7 +1,8 @@
 ---
 id: EX-00007
 title: "Add AuthSource enum and timer_context constructor to AuthContext"
-status: testing
+status: complete
+updated: 2026-03-26
 created: 2026-03-24
 hypothesis: HY-00014
 algorithm:

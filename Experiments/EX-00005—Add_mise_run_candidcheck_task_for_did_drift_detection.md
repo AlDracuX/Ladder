@@ -1,7 +1,8 @@
 ---
 id: EX-00005
 title: "Add mise run candid-check task for .did drift detection"
-status: testing
+status: complete
+updated: 2026-03-26
 created: 2026-03-24
 hypothesis: HY-00016
 algorithm:

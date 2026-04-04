@@ -17,10 +17,11 @@
 import { readdir, readFile, writeFile } from "fs/promises";
 import { existsSync } from "fs";
 import { join, resolve } from "path";
+import { homedir } from "os";
 
 const ROOT = resolve(import.meta.dir, "..");
-const PAI_DIR = join(process.env.HOME || "~", ".config", "PAI", "PAI");
-const CLAUDE_DIR = join(process.env.HOME || "~", ".claude");
+const PAI_DIR = join(process.env.HOME || homedir(), ".config", "PAI", "PAI");
+const CLAUDE_DIR = join(process.env.HOME || homedir(), ".claude");
 
 // ── Helpers ──────────────────────────────────────────────
 

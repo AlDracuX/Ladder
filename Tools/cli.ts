@@ -17,6 +17,11 @@ const COLLECTIONS = {
 
 type CollectionKey = keyof typeof COLLECTIONS;
 
+const PLURALS: Record<string, string> = {
+  sources: "source", ideas: "idea", hypotheses: "hypothesis",
+  experiments: "experiment", algorithms: "algorithm", results: "result",
+};
+
 // ── Helpers ──────────────────────────────────────────────
 
 function today(): string {
@@ -28,6 +33,22 @@ function slugify(title: string): string {
     .replace(/[^a-zA-Z0-9\s]/g, "")
     .replace(/\s+/g, "_")
     .substring(0, 60);
+}
+
+function matchesDomain(entryDomain: string, filter: string): boolean {
+  if (!filter) return true;
+  if (!entryDomain) return false;
+  const f = filter.toLowerCase();
+  const d = entryDomain.toLowerCase();
+  if (d === f) return true;
+  if (d.startsWith(f + "-")) return true;
+  if (d.includes(",")) {
+    return d.split(",").some(part => {
+      const t = part.trim();
+      return t === f || t.startsWith(f + "-");
+    });
+  }
+  return false;
 }
 
 async function getNextId(dir: string, prefix: string): Promise<string> {
@@ -50,7 +71,7 @@ async function getNextId(dir: string, prefix: string): Promise<string> {
   return `${prefix}-${String(next).padStart(5, "0")}`;
 }
 
-async function listEntries(dir: string, prefix: string): Promise<Array<{ id: string; title: string; status: string }>> {
+async function listEntries(dir: string, prefix: string, filterDomain?: string): Promise<Array<{ id: string; title: string; status: string }>> {
   const fullDir = join(ROOT, dir);
   if (!existsSync(fullDir)) return [];
 
@@ -62,6 +83,7 @@ async function listEntries(dir: string, prefix: string): Promise<Array<{ id: str
 
     const content = await readFile(join(fullDir, file), "utf-8");
     const frontmatter = parseFrontmatter(content);
+    if (filterDomain && !matchesDomain(frontmatter.domain || "", filterDomain)) continue;
     entries.push({
       id: frontmatter.id || file.replace(".md", ""),
       title: frontmatter.title || "(untitled)",
@@ -127,6 +149,7 @@ function colorStatus(status: string): string {
 function generateEntry(type: CollectionKey, id: string, args: Record<string, string>): string {
   const title = args.title || "";
   const date = today();
+  const domain = args.domain || "";
 
   switch (type) {
     case "source":
@@ -138,7 +161,7 @@ url: "${args.url || ""}"
 status: draft
 created: ${date}
 tags: []
-domain: ""
+domain: "${domain}"
 relevance: ""
 ---
 
@@ -163,7 +186,7 @@ status: draft
 created: ${date}
 sources: [${args.source || ""}]
 phase: ${args.phase || "contemplate"}
-domain: ""
+domain: "${domain}"
 tags: []
 scores:
   feasibility: 0
@@ -209,7 +232,11 @@ If [condition], then [expected outcome].
 ## Risks
 `;
 
-    case "experiment":
+    case "experiment": {
+      const isLegal = domain.toLowerCase().startsWith("legal");
+      const domainFm = domain ? `\ndomain: "${domain}"` : "";
+      const legalFm = isLegal ? `\nrisk: ""\nreversible: true` : "";
+      const legalBody = isLegal ? `\n## Legal Risk Assessment\n\n## Filing Requirements\n\n## Deadline\n\n## Reversibility\n` : "";
       return `---
 id: ${id}
 title: "${title}"
@@ -220,7 +247,7 @@ algorithm: ${args.algorithm || ""}
 tags: []
 methodology: ""
 duration: ""
-success_criteria: ""
+success_criteria: ""${domainFm}${legalFm}
 ---
 
 ## Objective
@@ -242,7 +269,8 @@ ${title}
 ## Analysis
 
 ## Next Steps
-`;
+${legalBody}`;
+    }
 
     case "algorithm":
       return `---
@@ -250,7 +278,7 @@ id: ${id}
 title: "${title}"
 status: draft
 created: ${date}
-domain: ""
+domain: "${domain}"
 tags: []
 experiments: []
 complexity: medium
@@ -348,13 +376,14 @@ async function cmdAdd(type: string, args: Record<string, string>): Promise<void>
   console.log(`  ${DIM}Title:${RESET} ${args.title}`);
 }
 
-async function cmdList(type: string): Promise<void> {
+async function cmdList(type: string, filterDomain?: string): Promise<void> {
   const key = type as CollectionKey;
   if (!COLLECTIONS[key]) {
     // List all if type is "all"
     if (type === "all") {
+      if (filterDomain) console.log(`\n${DIM}(filtered: ${filterDomain})${RESET}`);
       for (const [k, col] of Object.entries(COLLECTIONS)) {
-        const entries = await listEntries(col.dir, col.prefix);
+        const entries = await listEntries(col.dir, col.prefix, filterDomain);
         if (entries.length > 0) {
           const plural = col.name === "Hypothesis" ? "Hypotheses" : col.name + "s";
           console.log(`\n${BOLD}${plural} (${col.prefix}-)${RESET}`);
@@ -370,7 +399,7 @@ async function cmdList(type: string): Promise<void> {
   }
 
   const col = COLLECTIONS[key];
-  const entries = await listEntries(col.dir, col.prefix);
+  const entries = await listEntries(col.dir, col.prefix, filterDomain);
 
   if (entries.length === 0) {
     console.log(`${DIM}No ${col.name.toLowerCase()}s found.${RESET}`);
@@ -378,17 +407,23 @@ async function cmdList(type: string): Promise<void> {
   }
 
   const plural = col.name === "Hypothesis" ? "Hypotheses" : col.name + "s";
-  console.log(`\n${BOLD}${plural} (${col.prefix}-)${RESET}\n`);
+  console.log(`\n${BOLD}${plural} (${col.prefix}-)${RESET}`);
+  if (filterDomain) console.log(`${DIM}(filtered: ${filterDomain})${RESET}`);
+  console.log();
   for (const e of entries) {
     console.log(`  ${e.id}  ${colorStatus(e.status)}  ${e.title}`);
   }
   console.log();
 }
 
-async function cmdStatus(): Promise<void> {
+async function cmdStatus(filterDomain?: string): Promise<void> {
   console.log(`\n${BOLD}┌─────────────────────────────────────────┐${RESET}`);
   console.log(`${BOLD}│           LADDER PIPELINE STATUS         │${RESET}`);
   console.log(`${BOLD}└─────────────────────────────────────────┘${RESET}\n`);
+
+  if (filterDomain) {
+    console.log(`  ${DIM}(filtered: ${filterDomain})${RESET}\n`);
+  }
 
   const stages = [
     { key: "source" as const, arrow: " → " },
@@ -402,7 +437,7 @@ async function cmdStatus(): Promise<void> {
 
   for (const stage of stages) {
     const col = COLLECTIONS[stage.key];
-    const entries = await listEntries(col.dir, col.prefix);
+    const entries = await listEntries(col.dir, col.prefix, filterDomain);
     const byStatus: Record<string, number> = {};
     for (const e of entries) {
       byStatus[e.status] = (byStatus[e.status] || 0) + 1;
@@ -411,7 +446,7 @@ async function cmdStatus(): Promise<void> {
   }
 
   // Also count algorithms
-  const alEntries = await listEntries(COLLECTIONS.algorithm.dir, COLLECTIONS.algorithm.prefix);
+  const alEntries = await listEntries(COLLECTIONS.algorithm.dir, COLLECTIONS.algorithm.prefix, filterDomain);
   const alByStatus: Record<string, number> = {};
   for (const e of alEntries) {
     alByStatus[e.status] = (alByStatus[e.status] || 0) + 1;
@@ -440,7 +475,7 @@ async function cmdStatus(): Promise<void> {
   console.log();
 
   // Loop indicator
-  const resultEntries = await listEntries(COLLECTIONS.result.dir, COLLECTIONS.result.prefix);
+  const resultEntries = await listEntries(COLLECTIONS.result.dir, COLLECTIONS.result.prefix, filterDomain);
   const loopCount = resultEntries.filter((e) => e.status === "complete").length;
   if (loopCount > 0) {
     console.log(`  ${BOLD}↩ Loop:${RESET} ${loopCount} result(s) feeding back into pipeline`);
@@ -491,6 +526,9 @@ async function cmdEnrich(idOrType: string): Promise<void> {
   console.log(`  ${DIM}Type:${RESET} ${found.type}`);
   console.log(`  ${DIM}File:${RESET} ${found.filepath}`);
 
+  // Type-specific enrichment checks
+  const missingFields: string[] = [];
+
   if (isIdea) {
     const sections = ["Description", "Provenance", "Connection", "Next Steps"];
     const empty: string[] = [];
@@ -507,9 +545,40 @@ async function cmdEnrich(idOrType: string): Promise<void> {
     if (found.content.includes("feasibility: 0")) {
       console.log(`  ${DIM}Scores:${RESET} all zero (need rating)`);
     }
+  } else if (found.type === "source") {
+    if (!fm.domain || fm.domain === '""') missingFields.push("domain");
+    if (!fm.relevance || fm.relevance === '""') missingFields.push("relevance");
+  } else if (found.type === "hypothesis") {
+    if (!fm.prediction || fm.prediction === '""') missingFields.push("prediction");
+    if (!fm.metric || fm.metric === '""') missingFields.push("metric");
+    if (!fm.success_criteria || fm.success_criteria === '""') missingFields.push("success_criteria");
+  } else if (found.type === "experiment") {
+    if (!fm.methodology || fm.methodology === '""') missingFields.push("methodology");
+    if (!fm.success_criteria || fm.success_criteria === '""') missingFields.push("success_criteria");
+  } else if (found.type === "result") {
+    if (fm.outcome === "inconclusive") missingFields.push("outcome (still inconclusive)");
+  } else if (found.type === "algorithm") {
+    if (!fm.domain || fm.domain === '""') missingFields.push("domain");
+    if (!fm.complexity || fm.complexity === '""') missingFields.push("complexity");
   }
 
-  // Read linked sources for context
+  if (missingFields.length > 0) {
+    console.log(`  ${DIM}Missing fields:${RESET} ${missingFields.join(", ")}`);
+  }
+
+  // Check for empty body sections (all types)
+  if (!isIdea) {
+    const sections = found.content.split(/\n## /);
+    const emptySections = sections
+      .slice(1) // skip content before first ##
+      .filter((s) => s.trim().split("\n").length <= 2)
+      .map((s) => s.split("\n")[0].trim());
+    if (emptySections.length > 0) {
+      console.log(`  ${DIM}Empty sections:${RESET} ${emptySections.join(", ")}`);
+    }
+  }
+
+  // Read linked sources for context (ideas only)
   if (isIdea && fm.sources) {
     const sourceIds = fm.sources.replace(/[\[\]]/g, "").split(",").map((s: string) => s.trim()).filter(Boolean);
     if (sourceIds.length > 0) {
@@ -534,7 +603,7 @@ async function cmdEnrich(idOrType: string): Promise<void> {
   console.log(`  Use: claude "enrich ${fm.id || idOrType}" or edit manually.`);
 }
 
-async function cmdStubs(type?: string): Promise<void> {
+async function cmdStubs(type?: string, filterDomain?: string): Promise<void> {
   const typesToCheck = type
     ? [type as CollectionKey]
     : (Object.keys(COLLECTIONS) as CollectionKey[]);
@@ -554,6 +623,8 @@ async function cmdStubs(type?: string): Promise<void> {
       if (!file.match(new RegExp(`^${col.prefix}-\\d`)) || !file.endsWith(".md")) continue;
       const content = await readFile(join(fullDir, file), "utf-8");
       const fm = parseFrontmatter(content);
+
+      if (filterDomain && !matchesDomain(fm.domain || "", filterDomain)) continue;
 
       // Check if stub: for ideas, scores all 0 and description = title
       if (key === "idea") {
@@ -612,21 +683,26 @@ ${BOLD}Types:${RESET}
 
 ${BOLD}Options for 'add':${RESET}
   --title         Entry title (required)
+  --domain        Domain tag (dev, legal-strategy, legal-evidence, etc.)
   --source        Source ID (for ideas)
   --idea          Idea ID (for hypotheses)
   --hypothesis    Hypothesis ID (for experiments)
   --experiment    Experiment ID (for results)
   --algorithm     Algorithm ID (for experiments)
-  --type          Source type (paper, article, observation, etc.)
+  --type          Source type (observation, ruling, filing, intel, etc.)
   --url           Source URL
   --phase         Cognitive phase (consume, dream, daydream, etc.)
 
+${BOLD}Filtering:${RESET}
+  --domain        Filter by domain prefix (list, status, stubs)
+
 ${BOLD}Examples:${RESET}
-  bun run ladder add idea --title "Use caching for API responses"
-  bun run ladder add hypothesis --idea ID-00001 --title "Cache reduces latency by 30%"
-  bun run ladder list ideas
-  bun run ladder list all
-  bun run ladder status
+  bun run ladder add source --title "EAT ruling on costs" --domain legal-precedent
+  bun run ladder add experiment --title "Test saga pattern" --domain dev
+  bun run ladder list ideas --domain legal
+  bun run ladder list all --domain case-domain
+  bun run ladder status --domain dev
+  bun run ladder stubs --domain legal
 `);
 }
 
@@ -648,9 +724,7 @@ switch (command) {
       process.exit(1);
     }
     const type = args[1];
-    // Handle plural forms
-    const singular = type.replace(/s$/, "").replace(/ie$/, "y");
-    const normalizedType = singular === "hypothesi" ? "hypothesis" : singular;
+    const normalizedType = PLURALS[type] || type;
     const parsedArgs = parseArgs(args.slice(2));
     await cmdAdd(normalizedType, parsedArgs);
     break;
@@ -662,15 +736,17 @@ switch (command) {
       process.exit(1);
     }
     const type = args[1];
-    const singular = type.replace(/s$/, "").replace(/ie$/, "y");
-    const normalizedType = singular === "hypothesi" ? "hypothesis" : singular;
-    await cmdList(normalizedType);
+    const normalizedType = PLURALS[type] || type;
+    const parsedArgs = parseArgs(args.slice(2));
+    await cmdList(normalizedType, parsedArgs.domain);
     break;
   }
 
-  case "status":
-    await cmdStatus();
+  case "status": {
+    const parsedArgs = parseArgs(args.slice(1));
+    await cmdStatus(parsedArgs.domain);
     break;
+  }
 
   case "enrich": {
     if (args.length < 2) {
@@ -682,8 +758,14 @@ switch (command) {
   }
 
   case "stubs": {
-    const type = args[1];
-    await cmdStubs(type);
+    let stubType = args[1];
+    let argsStart = 2;
+    if (stubType && stubType.startsWith("--")) {
+      stubType = undefined;
+      argsStart = 1;
+    }
+    const parsedArgs = parseArgs(args.slice(argsStart));
+    await cmdStubs(stubType, parsedArgs.domain);
     break;
   }
 

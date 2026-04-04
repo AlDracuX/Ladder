@@ -1,7 +1,8 @@
 ---
 id: EX-00006
 title: "Add CI script detecting multiple MemoryManager init calls per crate"
-status: testing
+status: complete
+updated: 2026-03-26
 created: 2026-03-24
 hypothesis: HY-00017
 algorithm:

@@ -1,7 +1,8 @@
 ---
 id: EX-00010
 title: "Audit all status enums for can_transition_to and add missing implementations"
-status: testing
+status: complete
+updated: 2026-03-26
 created: 2026-03-23
 hypothesis: HY-00007
 algorithm: ""

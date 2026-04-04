@@ -6,7 +6,7 @@ created: 2026-03-24
 experiment: EX-00005
 outcome: success
 tags: [ci, candid, did, drift-detection]
-loops_to: []
+loops_to: [AL-00012]
 ---
 
 ## Summary

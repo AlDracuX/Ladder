@@ -6,7 +6,7 @@ created: 2026-03-24
 experiment: EX-00006
 outcome: success
 tags: [memory-manager, ci, stable-structures, safety]
-loops_to: []
+loops_to: [AL-00013]
 ---
 
 ## Summary

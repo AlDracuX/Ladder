@@ -6,7 +6,7 @@ created: 2026-03-24
 experiment: EX-00008
 outcome: passed
 tags: [uk-law, statutory-caps, date-validation, runtime-check]
-loops_to: [SR-00006]
+loops_to: [SR-00006, AL-00010]
 ---
 
 ## Summary

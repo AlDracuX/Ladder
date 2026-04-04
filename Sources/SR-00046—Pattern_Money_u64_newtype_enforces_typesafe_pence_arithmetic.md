@@ -3,7 +3,8 @@ id: SR-00046
 title: "Pattern: Money u64 newtype enforces type-safe pence arithmetic eliminating 25 raw casts"
 type: pattern
 url: ""
-status: active
+status: archived
+updated: 2026-03-26
 created: 2026-03-24
 tags: [money, newtype, type-safety, settlement, f64, precision]
 domain: "financial-accuracy"

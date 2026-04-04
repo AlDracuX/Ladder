@@ -3,7 +3,8 @@ id: SR-00049
 title: "Retrospective: decoding_quota attribute does not exist in ic-cdk 0.19 macros"
 type: retrospective
 url: ""
-status: active
+status: archived
+updated: 2026-03-26
 created: 2026-03-24
 tags: [ic-cdk, decoding-quota, negative-result, api-gap]
 domain: "canister-security"

@@ -3,7 +3,8 @@ id: SR-00047
 title: "Pattern: AuthSource enum with 4 variants distinguishes user controller timer anonymous contexts"
 type: pattern
 url: ""
-status: active
+status: archived
+updated: 2026-03-26
 created: 2026-03-24
 tags: [authcontext, auth-source, timer, security, audit-trail]
 domain: "canister-security"

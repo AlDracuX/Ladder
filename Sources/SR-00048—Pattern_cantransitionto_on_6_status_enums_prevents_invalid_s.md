@@ -3,7 +3,8 @@ id: SR-00048
 title: "Pattern: can_transition_to on 6 status enums prevents invalid state transitions in 7 canisters"
 type: pattern
 url: ""
-status: active
+status: archived
+updated: 2026-03-26
 created: 2026-03-24
 tags: [state-machine, transition-validation, status-enum, safety]
 domain: "architecture"
