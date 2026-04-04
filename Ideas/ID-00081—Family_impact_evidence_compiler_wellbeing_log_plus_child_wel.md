@@ -8,10 +8,10 @@ phase: mate
 domain: "legal-evidence"
 tags: []
 scores:
-  feasibility: 0
-  novelty: 0
-  impact: 0
-  elegance: 0
+  feasibility: 80
+  novelty: 65
+  impact: 80
+  elegance: 75
 ---
 
 ## Description

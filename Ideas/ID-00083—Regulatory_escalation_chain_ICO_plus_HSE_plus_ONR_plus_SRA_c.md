@@ -8,10 +8,10 @@ phase: mate
 domain: "legal-procedural"
 tags: []
 scores:
-  feasibility: 0
-  novelty: 0
-  impact: 0
-  elegance: 0
+  feasibility: 80
+  novelty: 75
+  impact: 80
+  elegance: 80
 ---
 
 ## Description

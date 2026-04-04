@@ -8,10 +8,10 @@ phase: dream
 domain: "legal-strategy"
 tags: []
 scores:
-  feasibility: 0
-  novelty: 0
-  impact: 0
-  elegance: 0
+  feasibility: 90
+  novelty: 80
+  impact: 95
+  elegance: 85
 ---
 
 ## Description

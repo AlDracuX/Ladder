@@ -8,10 +8,10 @@ phase: mate
 domain: "legal-strategy"
 tags: []
 scores:
-  feasibility: 0
-  novelty: 0
-  impact: 0
-  elegance: 0
+  feasibility: 75
+  novelty: 70
+  impact: 75
+  elegance: 70
 ---
 
 ## Description

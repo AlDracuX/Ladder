@@ -8,10 +8,10 @@ phase: mate
 domain: "legal-intel"
 tags: []
 scores:
-  feasibility: 0
-  novelty: 0
-  impact: 0
-  elegance: 0
+  feasibility: 75
+  novelty: 85
+  impact: 85
+  elegance: 75
 ---
 
 ## Description
