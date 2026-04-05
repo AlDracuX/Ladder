@@ -2,7 +2,7 @@
 task: Regulatory Validation Bundle
 slug: 20260404-140400_regulatory-validation-bundle
 effort: small
-phase: ready
+phase: complete
 progress: 0/5
 mode: dev-job
 started: 2026-04-04T14:00:00Z

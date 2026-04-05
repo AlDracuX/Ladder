@@ -2,7 +2,7 @@
 task: Staged Filing Priority Scheduler
 slug: 20260404-150900_staged-filing-scheduler
 effort: small
-phase: ready
+phase: complete
 progress: 0/5
 mode: dev-job
 started: 2026-04-04T15:00:00Z

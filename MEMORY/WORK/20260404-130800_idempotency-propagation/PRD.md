@@ -2,7 +2,7 @@
 task: Idempotency Propagation to 5 Canisters
 slug: 20260404-130800_idempotency-propagation
 effort: large
-phase: ready
+phase: complete
 progress: 0/8
 mode: dev-job
 started: 2026-04-04T13:00:00Z

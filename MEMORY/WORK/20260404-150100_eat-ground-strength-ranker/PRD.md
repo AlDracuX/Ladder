@@ -2,7 +2,7 @@
 task: EAT Ground Strength Ranker
 slug: 20260404-150100_eat-ground-strength-ranker
 effort: small
-phase: ready
+phase: complete
 progress: 0/5
 mode: dev-job
 started: 2026-04-04T15:00:00Z

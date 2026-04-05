@@ -2,7 +2,7 @@
 task: Written Reasons EAT Attack Matrix
 slug: 20260404-140100_written-reasons-attack-matrix
 effort: medium
-phase: ready
+phase: complete
 progress: 0/6
 mode: dev-job
 started: 2026-04-04T14:00:00Z

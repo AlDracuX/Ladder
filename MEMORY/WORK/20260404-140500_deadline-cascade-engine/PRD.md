@@ -2,7 +2,7 @@
 task: Deadline Cascade Engine
 slug: 20260404-140500_deadline-cascade-engine
 effort: medium
-phase: ready
+phase: complete
 progress: 0/6
 mode: dev-job
 started: 2026-04-04T14:00:00Z

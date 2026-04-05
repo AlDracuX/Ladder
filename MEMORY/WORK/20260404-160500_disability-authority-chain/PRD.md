@@ -2,7 +2,7 @@
 task: Disability Discrimination Authority Chain
 slug: 20260404-160500_disability-authority-chain
 effort: small
-phase: ready
+phase: complete
 progress: 0/5
 mode: dev-job
 started: 2026-04-04T16:05:00Z

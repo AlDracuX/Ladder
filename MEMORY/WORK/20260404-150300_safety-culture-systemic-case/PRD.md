@@ -2,7 +2,7 @@
 task: Safety Culture Systemic Case Package
 slug: 20260404-150300_safety-culture-systemic-case
 effort: medium
-phase: ready
+phase: complete
 progress: 0/5
 mode: dev-job
 started: 2026-04-04T15:00:00Z

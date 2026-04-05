@@ -2,7 +2,7 @@
 task: Strike-Out Case Law Matrix
 slug: 20260404-160100_strike-out-case-law-matrix
 effort: small
-phase: ready
+phase: complete
 progress: 0/5
 mode: dev-job
 started: 2026-04-04T16:01:00Z

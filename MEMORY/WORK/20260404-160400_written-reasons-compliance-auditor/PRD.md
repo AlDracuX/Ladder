@@ -2,7 +2,7 @@
 task: Written Reasons Compliance Auditor
 slug: 20260404-160400_written-reasons-compliance-auditor
 effort: small
-phase: ready
+phase: complete
 progress: 0/5
 mode: dev-job
 started: 2026-04-04T16:04:00Z

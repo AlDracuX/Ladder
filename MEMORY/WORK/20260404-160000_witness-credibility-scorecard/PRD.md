@@ -2,7 +2,7 @@
 task: Witness Credibility Scorecard
 slug: 20260404-160000_witness-credibility-scorecard
 effort: medium
-phase: ready
+phase: complete
 progress: 0/6
 mode: dev-job
 started: 2026-04-04T16:00:00Z

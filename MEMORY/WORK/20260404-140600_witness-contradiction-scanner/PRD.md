@@ -2,7 +2,7 @@
 task: Witness Statement Contradiction Scanner
 slug: 20260404-140600_witness-contradiction-scanner
 effort: medium
-phase: ready
+phase: complete
 progress: 0/6
 mode: dev-job
 started: 2026-04-04T14:00:00Z

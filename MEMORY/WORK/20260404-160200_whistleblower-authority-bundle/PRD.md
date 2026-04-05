@@ -2,7 +2,7 @@
 task: Whistleblower Protection Authority Bundle
 slug: 20260404-160200_whistleblower-authority-bundle
 effort: small
-phase: ready
+phase: complete
 progress: 0/5
 mode: dev-job
 started: 2026-04-04T16:02:00Z

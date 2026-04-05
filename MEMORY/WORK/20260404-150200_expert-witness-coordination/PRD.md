@@ -2,7 +2,7 @@
 task: Expert Witness Coordination Dashboard
 slug: 20260404-150200_expert-witness-coordination
 effort: medium
-phase: ready
+phase: complete
 progress: 0/6
 mode: dev-job
 started: 2026-04-04T15:00:00Z

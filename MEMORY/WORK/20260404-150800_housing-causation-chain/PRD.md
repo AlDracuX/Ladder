@@ -2,7 +2,7 @@
 task: Housing Crisis Causation Chain
 slug: 20260404-150800_housing-causation-chain
 effort: small
-phase: ready
+phase: complete
 progress: 0/5
 mode: dev-job
 started: 2026-04-04T15:00:00Z

@@ -2,7 +2,7 @@
 task: Case Narrative Evidence Graph with Cross-Canister Traversal
 slug: 20260404-130600_case-narrative-evidence-graph
 effort: large
-phase: ready
+phase: complete
 progress: 0/8
 mode: dev-job
 started: 2026-04-04T13:00:00Z

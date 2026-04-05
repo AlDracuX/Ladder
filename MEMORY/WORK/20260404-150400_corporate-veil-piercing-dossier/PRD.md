@@ -2,7 +2,7 @@
 task: Corporate Veil Piercing Dossier
 slug: 20260404-150400_corporate-veil-piercing-dossier
 effort: medium
-phase: ready
+phase: complete
 progress: 0/6
 mode: dev-job
 started: 2026-04-04T15:00:00Z

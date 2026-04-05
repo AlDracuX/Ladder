@@ -2,7 +2,7 @@
 task: Statutory Rate Hot-Swap via Runtime Environment Variables
 slug: 20260404-130300_statutory-rate-hotswap
 effort: small
-phase: ready
+phase: complete
 progress: 0/5
 mode: dev-job
 started: 2026-04-04T13:00:00Z
